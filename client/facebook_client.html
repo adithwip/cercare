@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Facebook App</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      #welcome {
+        display: none;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="assets/fbsdk.js"></script>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="jumbotron text-center">
+        <h1>Facebook Client App</h1>
+      </div>
+
+      <button id="login-btn" class="btn btn-primary" type="button" name="button" onclick="FBLogin()">Login with Facebook</button>
+
+      <p id="welcome">You're logged in, welcome!</p>
+
+      <button type="button" class="btn btn-primary" onclick="getTimelineFB()">
+        Get timeline
+      </button>
+      
+      <div id="timeline">
+
+      </div>
+    </div>
+
+  </body>
+</html>

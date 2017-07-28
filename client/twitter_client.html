@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Twatt App</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+
+    <div class="row">
+      <!-- ==========Timeline==========  -->
+      <div class="col-md-4">
+      </br>
+      </br>
+        <button class="btn btn-primary" type="button" name="button" onclick="getTimeline()">Timeline</button>
+      </br>
+      </br>
+        <div id="timeline">
+
+        </div>
+      </div>
+
+      <!-- ==========Search========== -->
+      <div class="col-md-4">
+        <div class="col-lg-8">
+          <form id="search-form" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" id="search" name="search" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="find" type="button" onclick="searchTwitter()">Go!</button>
+                </span>
+            </div><!-- /input-group -->
+          </form>
+        </div><!-- /.col-lg-6 -->
+      </br>
+      </br>
+      </br>
+        <div id="search-output">
+
+        </div>
+      </div>
+      <!-- ==========Tweet========== -->
+      <div class="col-md-4">
+        <div class="form-group col-lg-10">
+          <label for="comment">Tweet</label>
+          <textarea class="form-control" rows="5" id="tweet-text"></textarea>
+          <button class="btn btn-primary" type="button" name="button" onclick="postTweet()">Tweet</button>
+        </div>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+        <div id="tweet-output">
+
+        </div>
+      </div>
+
+    </div>
+    <!-- row -->
+  </body>
+
+  <!-- javascript -->
+  <script type="text/javascript">
+
+  function getTimeline() {
+    axios.get('http://localhost:3000/timeline')
+    .then(response => {
+      console.log(response.data);
+      response.data.forEach(data => {
+        $("#timeline").append(
+          `<div class="panel panel-info">
+            <div class="panel-heading">${data.user.screen_name}</div>
+            <div class="panel-body">${data.text}</div>
+          </div>`
+        );
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  function searchTwitter() {
+    var value = $("#search").val();
+
+    axios.get('http://localhost:3000/search', {
+      params: {
+        search: value
+      }
+    })
+    .then(response => {
+      console.log(response.data.statuses);
+      response.data.statuses.forEach(data => {
+        $("#search-output").append(
+          `<div class="panel panel-info">
+            <div class="panel-heading">${data.user.screen_name}</div>
+            <div class="panel-body">${data.text}</div>
+          </div>`
+        );
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  function postTweet() {
+    var tweetText = $("#tweet-text").val();
+
+    axios.post('http://localhost:3000/tweet', {
+      tweet: tweetText
+    })
+    .then(tweetPosted => {
+      console.log(tweetPosted);
+      $("#tweet-output").append(
+        `<div class="panel panel-info">
+          <div class="panel-heading">${tweetPosted.data.user.screen_name}</div>
+          <div class="panel-body">${tweetPosted.data.text}</div>
+        </div>`
+      )
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+  </script>
+</html>
